@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Invoice Generated</h2>
+
+{% if success %}
+<p class="success">{{ success }}</p>
+{% endif %}
+
+<hr>
+
+<p><strong>Total:</strong> ₹ {{ total }}</p>
+<p><strong>Paid:</strong> ₹ {{ purchase.paid_amount }}</p>
+<p><strong>Balance:</strong> ₹ {{ balance }}</p>
+
+<hr>
+
+<h3>Purchased Items</h3>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Qty</th>
+    <th>Line Total</th>
+</tr>
+
+{% for item in items %}
+<tr>
+    <td>{{ item.product.name }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>₹ {{ item.line_total }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>Change Given</h3>
+
+<ul>
+{% for denom, count in change.change_breakdown.items() %}
+    <li>₹ {{ denom }} × {{ count }}</li>
+{% endfor %}
+</ul>
+
+<hr>
+<a href="/">Back</a>
+
+{% endblock %}

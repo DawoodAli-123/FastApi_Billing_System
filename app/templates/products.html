@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Product Management</h2>
+<hr>
+
+<h3>Add Product</h3>
+
+<form method="post" action="/products/add" class="section bootstrap-form">
+
+    <div class="form-row">
+        <label>Name</label>
+        <input type="text" name="name" required>
+    </div>
+
+    <div class="form-row">
+        <label>Stock</label>
+        <input type="number" name="stock" required>
+    </div>
+
+    <div class="form-row">
+        <label>Price</label>
+        <input type="number" step="0.01" name="price" required>
+    </div>
+
+    <div class="form-row">
+        <label>Tax %</label>
+        <input type="number" step="0.01" name="tax_percentage" required>
+    </div>
+
+    <div class="form-row">
+        <label></label>
+        <button type="submit">Add Product</button>
+    </div>
+
+</form>
+
+<hr>
+
+<h3>Existing Products</h3>
+
+<table>
+<tr>
+    <th style="width:50px;">ID</th>
+    <th style="width:130px;">Name</th>
+    <th style="width:80px;">Stock</th>
+    <th style="width:100px;">Price</th>
+    <th style="width:80px;">Tax %</th>
+    <th style="width:90px;">Update</th>
+    <th style="width:90px;">Delete</th>
+</tr>
+
+{% for p in products %}
+<tr>
+    <td>{{ p.id }}</td>
+    <td>{{ p.name }}</td>
+
+    <td>
+        <form method="post" action="/products/update/{{ p.id }}">
+            <input type="number" name="stock" value="{{ p.stock }}">
+    </td>
+
+    <td>
+            <input type="number" step="0.01" name="price" value="{{ p.price }}">
+    </td>
+
+    <td>
+            <input type="number" step="0.01" name="tax_percentage" value="{{ p.tax_percentage }}">
+    </td>
+
+    <td>
+            <button type="submit">Update</button>
+        </form>
+    </td>
+
+    <td>
+        <form method="post" action="/products/delete/{{ p.id }}">
+            <button type="submit" style="background-color:#e74c3c;">
+                Delete
+            </button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+<a href="/">Back to Billing</a>
+
+{% endblock %}

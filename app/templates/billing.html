@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Billing System</h1>
+<hr>
+
+<form method="post" action="/generate">
+
+    <div class="section">
+        <div class="form-row">
+            <label>Customer Email:</label>
+            <input type="email" name="customer_email" required>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Products</h3>
+
+        <div id="products">
+            <div class="form-row">
+                <select name="product_ids">
+                    {% for p in products %}
+                    <option value="{{ p.id }}">
+                        {{ p.name }} (Stock: {{ p.stock }})
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <label>Qty:</label>
+                <input type="number" name="quantities" min="1" required>
+            </div>
+        </div>
+
+        <button type="button" onclick="addProduct()">Add</button>
+    </div>
+
+    <div class="section">
+        <h3>Available Denominations</h3>
+
+        <table class="small-table">
+            <tr>
+                <th>Value</th>
+                <th>Available</th>
+            </tr>
+            {% for d in denominations %}
+            <tr>
+                <td>₹ {{ d.value }}</td>
+                <td>
+                    <input type="number"
+                           name="denom_{{ d.value }}"
+                           value="{{ d.available_count }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="form-row">
+            <label>Paid Amount:</label>
+            <input type="number" name="paid_amount" required>
+        </div>
+
+        <button type="submit">Generate Bill</button>
+    </div>
+
+</form>
+
+<hr>
+
+<div class="section">
+    <h3>View Purchase History</h3>
+    <form action="/history/redirect" method="post">
+        <div class="form-row">
+            <input type="email" name="history_email" placeholder="Customer Email" required>
+            <button type="submit">View</button>
+        </div>
+    </form>
+</div>
+
+<hr>
+<a href="/products">Manage Products</a>
+
+<script>
+function addProduct() {
+    const container = document.getElementById("products");
+    const div = document.createElement("div");
+    div.classList.add("form-row");
+
+    div.innerHTML = `
+        <select name="product_ids">
+            ${document.querySelector('select[name="product_ids"]').innerHTML}
+        </select>
+        <label>Qty:</label>
+        <input type="number" name="quantities" min="1" required>
+    `;
+
+    container.appendChild(div);
+}
+</script>
+
+{% endblock %}

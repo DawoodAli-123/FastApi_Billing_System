@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Purchase History</h2>
+<hr>
+
+<table>
+<tr>
+    <th>ID</th>
+    <th>Total</th>
+    <th>Date</th>
+    <th>View</th>
+</tr>
+
+{% for p in purchases %}
+<tr>
+    <td>{{ p.id }}</td>
+    <td>₹ {{ p.total_amount }}</td>
+    <td>{{ p.created_at }}</td>
+    <td>
+        <a href="/history/purchase/{{ p.id }}">View</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+<a href="/">Back</a>
+
+{% endblock %}
