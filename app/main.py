@@ -45,8 +45,3 @@ def seed_data():
 
 
 seed_data()
-
-
-@app.get("/")
-def health_check():
-    return {"status": "Billing System Running"}
